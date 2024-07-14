@@ -113,7 +113,7 @@ with st.sidebar:
 col1, col2 = st.columns(2)
 col1.metric("月々の返済額 :money_with_wings:", 
           f"{st.session_state['monthly_payment']:,.1f}万円")
-col2.metric(":red[総返済額] :moneybag:", 
+col2.metric("総返済額 :moneybag:", 
           f"{st.session_state['total_payment']:,.0f}万円")
 
 st.subheader("返済グラフ")
