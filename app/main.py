@@ -77,13 +77,13 @@ with st.sidebar:
         "借入金額（万円）", 
         min_value=100, 
         max_value=100000, 
-        value=500
+        value=1000
     )
     st.session_state['years'] = st.slider(
         "返済期間（年）", 
         min_value=1, 
         max_value=45, 
-        value=10
+        value=20
     )
     st.session_state['annual_rate'] = st.slider(
         "金利（%）", 
