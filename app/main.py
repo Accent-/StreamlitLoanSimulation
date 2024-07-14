@@ -118,7 +118,7 @@ col2.metric("総返済額 :moneybag:",
 
 st.subheader("ローン返済残高推移")
 fig = px.bar(st.session_state['schedule']['残高（万円）'],
-             y="返済残高（万円）")
+             y="残高（万円）")
 st.plotly_chart(fig);
 st.subheader("返済スケジュール")
 st.dataframe(st.session_state['schedule'].style.format("{:.1f}"))
