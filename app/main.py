@@ -69,39 +69,48 @@ def calculate_loan(principal, years, annural_rate, bonus_payment=0):
 
 
 st.title("ローン返済シミュレーション")
-principal = st.number_input(
-    "借入金額（万円）", 
-    min_value=100, 
-    max_value=100000, 
-    value=500
-)
-years = st.slider(
-    "返済期間（年）", 
-    min_value=1, 
-    max_value=45, 
-    value=10
-)
-annual_rate = st.number_input(
-    "金利（%）", 
-    min_value=0.1, 
-    max_value=10.0, 
-    value=1.0
-)
-bonus_payment = st.number_input(
-    "ボーナス返済額（万円、任意）", 
-    min_value=0, 
-    max_value=principal//2, 
-    value=0
-)
 
-if st.button("計算"):
-    monthly_payment, total_payment, schedule = calculate_loan(
-        principal, years, annual_rate, bonus_payment
+with st.sidebar:
+    st.subheader('パラメータ')
+    st.session_state['principal'] = st.number_input(
+        "借入金額（万円）", 
+        min_value=100, 
+        max_value=100000, 
+        value=500
+    )
+    st.session_state['years'] = st.slider(
+        "返済期間（年）", 
+        min_value=1, 
+        max_value=45, 
+        value=10
+    )
+    st.session_state['annual_rate'] = st.slider(
+        "金利（%）", 
+        min_value=0.1, 
+        max_value=10.0, 
+        value=1.0
+    )
+    st.session_state['bonus_payment'] = st.number_input(
+        "ボーナス返済額（万円、任意）", 
+        min_value=0, 
+        max_value=st.session_state['principal']//2, 
+        value=0
     )
 
-    st.write(f"月々の返済額: {monthly_payment:,.1f}万円")
-    st.write(f"総返済額: {total_payment:,.0f}万円")
+(
+    st.session_state['monthly_payment'], 
+    st.session_state['total_payment'], 
+    st.session_state['schedule'],
+) = calculate_loan(
+    st.session_state['principal'], 
+    st.session_state['years'], 
+    st.session_state['annual_rate'], 
+    st.session_state['bonus_payment']
+)
 
-    st.subheader("返済スケジュール")
-    st.dataframe(schedule)
-    # st.dataframe(schedule.style.format("{:.1f}"))
+st.write(f"月々の返済額: {st.session_state['monthly_payment']:,.1f}万円")
+st.write(f"総返済額: {st.session_state['total_payment']:,.0f}万円")
+
+st.subheader("返済スケジュール")
+st.dataframe(st.session_state['schedule'])
+# st.dataframe(schedule.style.format("{:.1f}"))
