@@ -124,6 +124,4 @@ fig = px.line(st.session_state['schedule']['残高（万円）'],
               y="残高（万円）")
 st.plotly_chart(fig);
 st.subheader("返済スケジュール")
-st.dataframe(st.session_state['schedule'])
-# st.dataframe(schedule.style.format("{:.1f}"))
-print(st.session_state['schedule']['残高（万円）'])
+st.dataframe(st.session_state['schedule'].style.format("{:.1f}"))
