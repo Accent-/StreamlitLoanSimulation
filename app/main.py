@@ -90,12 +90,14 @@ with st.sidebar:
         max_value=10.0, 
         value=1.0
     )
-    st.session_state['bonus_payment'] = st.number_input(
-        "ボーナス返済額（万円、任意）", 
-        min_value=0, 
-        max_value=st.session_state['principal']//2, 
-        value=0
-    )
+    st.session_state['on'] = st.toggle("ボーナス払い")
+    if st.session_state['on']:
+        st.session_state['bonus_payment'] = st.number_input(
+            "ボーナス返済額（万円）", 
+            min_value=0, 
+            max_value=st.session_state['principal']//2, 
+            value=0
+        )
 
 (
     st.session_state['monthly_payment'], 
