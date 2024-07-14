@@ -1,6 +1,7 @@
 import streamlit as st
 import numpy as np
 import pandas as pd
+import plotly.express as px
 
 def calculate_loan(principal, years, annural_rate, bonus_payment=0):
     monthly_rate = annural_rate / 100 / 12
@@ -48,7 +49,7 @@ def calculate_loan(principal, years, annural_rate, bonus_payment=0):
 
     schedule_df['Years'] = schedule_df['Month'].astype(int) // 12
     schedule_df['Remaining_Months'] = schedule_df['Month'].astype(int) % 12
-    schedule_df['Years_Months'] = schedule_df['Years'].astype(str) + '年' + schedule_df['Remaining_Months'].astype(str) + 'か月'
+    schedule_df['Years_Months'] = schedule_df['Years'].astype(str) + '年' + schedule_df['Remaining_Months'].astype(str) + 'ヶ月'
 
     schedule_df = schedule_df.drop('Years', axis=1)
     schedule_df = schedule_df.drop('Remaining_Months', axis=1)
@@ -87,11 +88,12 @@ with st.sidebar:
     st.session_state['annual_rate'] = st.slider(
         "金利（%）", 
         min_value=0.1, 
-        max_value=5.0, 
+        max_value=10.0, 
         step=0.01,
         value=1.0
     )
     st.session_state['on'] = st.toggle("ボーナス払い")
+    st.session_state['bonus_payment'] = 0.0
     if st.session_state['on']:
         st.session_state['bonus_payment'] = st.number_input(
             "ボーナス返済額（万円）", 
@@ -117,6 +119,11 @@ col1.metric("月々の返済額 :money_with_wings:",
 col2.metric(":red[総返済額] :moneybag:", 
           f"{st.session_state['total_payment']:,.0f}万円")
 
+st.subheader("返済グラフ")
+fig = px.line(st.session_state['schedule']['残高（万円）'],
+              y="残高（万円）")
+st.plotly_chart(fig);
 st.subheader("返済スケジュール")
 st.dataframe(st.session_state['schedule'])
 # st.dataframe(schedule.style.format("{:.1f}"))
+print(st.session_state['schedule']['残高（万円）'])
