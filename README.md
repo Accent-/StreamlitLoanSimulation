@@ -1,0 +1,2 @@
+# StreamlitLoanSimulation
+Streamlitでローンの返済計画をポチポチできるアプリを作ってみたかった
